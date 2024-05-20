@@ -2,6 +2,8 @@
 *.pyc
 *.pyo
 *.pyd
+*.DS_Store
+.DS_Store
 
 # Ignore cache directories
 __pycache__
