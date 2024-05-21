@@ -14,42 +14,47 @@ def openLink(link):
 ## checkAndSetBorder
 def checkAndSetBorder(field, value):
     if not value:
-        new_style = field.styleSheet().replace("border-color: transparent;\n", "border-color: red;\n")
+        current_style = field.styleSheet()
+        new_style = f"{current_style} border-color: red;\n"
         field.setStyleSheet(new_style)
         return True  
     else:
-        field.setStyleSheet(field.styleSheet().replace("border-color: red;\n", "border-color: transparent;\n"))
+        field.setStyleSheet(field.styleSheet().replace("border-color: red;\n", ""))
         return False
 
 
 # Storing Id
-def store_id(user_id):
-    data = {'userID': user_id}
+def store_data(dataIn):
+    data = {
+        "userID": dataIn[0],
+        "name": dataIn[1],
+        "email": dataIn[2]
+        }
+
     with open(user_id_path, 'w') as file:
         json.dump(data, file)
     #print(f'Stored ID: {user_id}')
 
 # Retrieving ID
-def retrieve_id():
+def retrieve_data():
     try:
         with open(user_id_path, 'r') as file:
             data = json.load(file)
-            user_id = data.get('userID', None)
     except FileNotFoundError:
         #print("File not found.")
-        user_id = None
+        data = None
     except json.JSONDecodeError:
         #print("Invalid JSON format.")
-        user_id = None
+        data = None
     except Exception as e:
         #print(f"An unexpected error occurred: {e}")
-        user_id = None
+        data = None
     
     #print(f'Retrieved ID: {user_id}')
-    return user_id
+    return data
 
 # Removing ID
-def remove_id():
+def remove_data():
     try:
         if os.path.exists(user_id_path):
             os.remove(user_id_path)
@@ -68,7 +73,6 @@ def set_timeout(delay, func):
 
 ##POP UP
 button_val = None
-
 def popup_button(i):
     global button_val
     button_val = i.text()  # Get the text of the button clicked
@@ -107,8 +111,6 @@ def shop_popup(text, info, type, btn):
     #print(f"btn {button_val}")
 
     return button_val
-
-
 
 
 ## FIX UI FILES

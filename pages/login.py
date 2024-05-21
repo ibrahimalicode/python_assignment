@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 from utils.generalFunctions import *
 from pages.sidebar import SideBarScreen
+from api.fetch import login_user
 import sqlite3
 import bcrypt
 
@@ -40,28 +41,12 @@ class LoginScreen(QDialog):
         self.errorLabel.setText("")
         #print(f"Email: {email}\nPassword: {password}")
 
-        conn = sqlite3.connect("db/db.db")
-        cursor = conn.cursor()
+        res = login_user(email, password)
 
-        try:
-            # the code
-            sql = "SELECT * FROM users WHERE email = ?"
-            cursor.execute(sql, (email,))
-            user = cursor.fetchone()
-
-            if not user:
-                self.errorLabel.setText("User not found !")
-            elif bcrypt.checkpw(password.encode("utf-8"), user[3]):
-                #print(f'user: {str(user)}')
-                self.errorLabel.setText("")
-                store_id(user[0])
-                #retrieve_id()
-                self.goToSideBar()
-            else:
-                self.errorLabel.setText("Invalid Password !")
-            
-        except sqlite3.Error as e:
-            #the code
-            print(f"Error: {str(e)}")
+        if res["statusCode"] == 404: self.errorLabel.setText("User not found !")
+        if res["statusCode"] == 301: self.errorLabel.setText("Invalid Password !")
+        if res["statusCode"] == 501: self.errorLabel.setText("Bir hata oluştu. Tekrar deneyin !")
+        if res["statusCode"] == 200: self.errorLabel.setText(""), self.goToSideBar()
+        print(res)
 
 

@@ -40,20 +40,51 @@ def register_user(name, email, password):
     return data
 
 
+## LOGIN USER
+def login_user(email, password):
+    conn = sqlite3.connect("db/db.db")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+
+    try:
+        # the code
+        sql = "SELECT id, name, email, password FROM users WHERE email = ?"
+        cursor.execute(sql, (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            data["statusCode"] = 404
+        elif bcrypt.checkpw(password.encode("utf-8"), user[3]):
+            #print(f'user: {str(user)}')
+            store_data(user)
+            data["statusCode"] = 200
+        else:
+            data["statusCode"] = 301
+    except sqlite3.Error as e:
+        #the code
+        data["statusCode"] = 501
+        print(f"Error: {str(e)}")
+
+    return data
+
+
+
 ## RELATED TO QUESTIONS
 def get_item(type, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
-    
+
+    user_id = retrieve_data()["userID"]
+    if not user_id: return {"statusCode": "401"}
     
     def get_with_id():
         sql = None
-        user_id = retrieve_id()
+        
 
         if element == "Question":
             sql = "SELECT * FROM questions WHERE UID = ?"
         if element == "Answer":
-            sql = "SELECT * FROM answesr WHERE UID = ?"
+            sql = "SELECT * FROM answers WHERE UID = ?"
 
         if user_id is not None:
             try:
@@ -89,9 +120,12 @@ def get_item(type, element):
         return get_with_id()
 
 
+## SEARCH ITEM
 def search_item(search_text, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
+
+    if not retrieve_data()["userID"]: return {"statusCode": "401"}
 
     sql = None
     if element == "Question":
@@ -109,67 +143,13 @@ def search_item(search_text, element):
         conn.close()
 
 
-""" #RELATED TO ANSWERS
-def get_answers(type):
-    conn = sqlite3.connect("db/db.db")
-    cursor = conn.cursor()
-    
-    
-    def get_with_id():
-        user_id = retrieve_id()
-        if user_id is not None:
-            sql = "SELECT * FROM answers WHERE UID = ?"
-            try:
-                data = cursor.execute(sql, (user_id,)).fetchall()
-                return data
-            except sqlite3.Error as e:
-                print(f'Error getting the answer with id: {e}')
-                return None
-            finally:
-                conn.close()
-        else:
-            return None
-    
-    def get_all():
-        sql = "SELECT * FROM answers LIMIT 50"
-        try:
-            data = cursor.execute(sql).fetchall()
-            return data
-        except sqlite3.Error as e:
-            print(f'Error getting answers: {e}')
-            return None
-        finally:
-            conn.close()
-    
-    if type == "all":
-        return get_all()
-    elif type == "with_id":
-        return get_with_id()
-
-
-def search_answers(search_text):
-    conn = sqlite3.connect("db/db.db")
-    cursor = conn.cursor()
-
-    sql = "SELECT * FROM answers WHERE text LIKE ?"
-    try:
-        data = cursor.execute(sql, ('%' + search_text + '%',)).fetchall()
-        return data
-    except sqlite3.Error as e:
-        print(f'Error searching: {e}')
-        return None
-    finally:
-        conn.close()
- """
-
 ### ADDING STUFF
 ## ADD ELEMENT(QUESTION/ANSWER)
 def add_element(text, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
-    user_id = retrieve_id()
+    user_id = retrieve_data()["userID"]
     id = str(uuid.uuid4())  # Generate a unique ID for element
-
     data = {"statusCode": ""}
 
     sql = None
@@ -196,32 +176,6 @@ def add_element(text, element):
         return data
 
 
-##ADD ANSWER
-def add_answer(answer):
-    conn = sqlite3.connect("db/db.db")
-    cursor = conn.cursor()
-    id = retrieve_id()
-    data = {"statusCode": ""}
-
-    sql = "INSERT INTO answers (text, UID) VALUES (?, ?)"
-
-    if id is not None:
-      try:
-        cursor.execute(sql, (answer, id))
-        conn.commit()
-        data["statusCode"] = 200
-        return data
-      except sqlite3.Error as e:
-          print(f'Error searching: {e}')
-          data["statusCode"] = 501
-          return data
-      finally:
-          conn.close()
-    else:
-        data["statusCode"] = 401
-        return data
-
-
 ## EDITING STUFF
 ## UPDATE ELEMENT(QUESTION/ANSWER)
 def update_element(question, id, element):
@@ -229,6 +183,8 @@ def update_element(question, id, element):
     cursor = conn.cursor()
     data = {"statusCode": ""}
     #print(f"the id is here: {id}")
+
+    if not retrieve_data()["userID"]: return {"statusCode": "401"}
 
     sql = None
 
@@ -243,7 +199,7 @@ def update_element(question, id, element):
         data["statusCode"] = 200
     except sqlite3.Error as e:
         print(f'Error updating element the {element}: {e}')
-        data["statusCode"] = 500
+        data["statusCode"] = 501
     finally:
         conn.close()
 
@@ -258,6 +214,8 @@ def destroy_element(id, element):
     data = {"statusCode": ""}
     #print(f"the id is here delete: {id}")
 
+    if not retrieve_data()["userID"]: return {"statusCode": "401"}
+
     sql = None
 
     if element == "Question":
@@ -271,10 +229,74 @@ def destroy_element(id, element):
         data["statusCode"] = 200
     except sqlite3.Error as e:
         print(f'Error deleting element the {element}: {e}')
-        data["statusCode"] = 500
+        data["statusCode"] = 501
     finally:
         conn.close()
 
     return data
 
+
+## UPDATE PASSWORD
+def update_password(newPassword, oldPassword):
+    conn = sqlite3.connect("db/db.db")
+    cur = conn.cursor()
+    data = retrieve_data()
+    response = {"statusCode": ""}
+
+    sql = "SELECT password FROM users WHERE email = ?"
+
+    try:
+        cur.execute(sql, (data["email"],))
+        user = cur.fetchone()
+
+        if bcrypt.checkpw(oldPassword.encode("utf-8"), user[0]):
+            userConfirm = shop_popup("Dikkat", "Şifrenizi değiştirmek istediğinizden emin misiniz ?", "warning", True)
+
+            if userConfirm == "OK":  # Check if the user confirmed with "OK"
+                salt = bcrypt.gensalt()
+                hashed_password = bcrypt.hashpw(newPassword.encode('utf-8'), salt) #Hash the password
+                sql = "UPDATE users SET password = ? WHERE email = ? AND id = ?"
+
+                try:
+                    cur.execute(sql, (hashed_password, data["email"], data["userID"]))
+                    conn.commit()
+                    response["statusCode"] = 200
+                except sqlite3.Error as e:
+                    response["statusCode"] = 501
+        else:
+            response["statusCode"] = 401  # Old password does not match
+    except sqlite3.Error as e:
+        print(f'Internal error encounterd: {e}')
+        data["statusCode"] = 501
+    
+    return response
+
+
+## UPDATE PASSWORD
+def update_name(name):
+    conn = sqlite3.connect("db/db.db")
+    cur = conn.cursor()
+    data = retrieve_data()
+    response = {"statusCode": ""}
+
+
+    sql = "UPDATE users SET name = ? WHERE email = ? AND id = ?"
+
+    userConfirm = shop_popup("Dikkat", "Adınızı değiştirmek istediğinizden emin misiniz ?", "warning", True)
+
+    if userConfirm == "OK":  # Check if the user confirmed with "OK"
+        try:
+            cur.execute(sql, (name, data["email"], data["userID"]))
+            conn.commit()
+
+            #Change the stored data
+            updatedData = [data["userID"], name, data["email"]]
+            store_data(updatedData)
+            response["statusCode"] = 200
+        except sqlite3.Error as e:
+            print(f'Internal error encounterd: {e}')
+            response["statusCode"] = 501
+        finally:
+            conn.close()  # Ensure the connection is closed
+    return response
 

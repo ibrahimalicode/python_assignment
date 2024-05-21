@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDialog, QListView, QApplication
 import sqlite3
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt
+import resources_rc
 
 ## FUNCTIONS
 from utils.generalFunctions import *
@@ -36,6 +37,9 @@ class SideBarScreen(QDialog):
 
         self.logoutBtn.clicked.connect(self.logout)
         self.logoutBtn2.clicked.connect(self.logout)
+
+        self.savePassword.clicked.connect(self.updatePassword)
+        self.savePersonalInfoBtn.clicked.connect(self.updateName)
 
         self.insert_item_data(get_item("all", "Question"), 'quest')
     
@@ -159,15 +163,27 @@ class SideBarScreen(QDialog):
         self.stackedWidget.setCurrentIndex(5)
         self.searchFrame.hide()
 
+    ## PROFILE page
     def on_profileBtn_toggled(self):
-        ## PROFILE page
         self.stackedWidget.setCurrentIndex(6)
         self.searchFrame.hide()
+        data = retrieve_data()
+        self.fullName.setText(data["name"])
+        self.email.setText(data["email"])
+        self.oldPassword.setText("")
+        self.newPassword.setText("")
+        self.confirmPassword.setText("")
 
     def on_profileBtn2_toggled(self):
-        ## PROFILE page
         self.stackedWidget.setCurrentIndex(6) 
         self.searchFrame.hide()
+        data = retrieve_data()
+        self.fullName.setText(data["name"])
+        self.email.setText(data["email"])
+        self.oldPassword.setText("")
+        self.newPassword.setText("")
+        self.confirmPassword.setText("")
+
 
     ## SET STYLES
     def setStyles(self, state, element): 
@@ -330,5 +346,47 @@ class SideBarScreen(QDialog):
     def logout(self):
         print("Logging out...")
         # Close the application
-        remove_id()
+        remove_data()
         QApplication.quit()
+
+    ##UPDATE PASSWORD
+    def updatePassword(self):
+        oldPassword = self.oldPassword.text()
+        newPassword = self.newPassword.text()
+        confirmPassword = self.confirmPassword.text()
+
+             
+        if checkAndSetBorder(self.oldPassword, oldPassword) or \
+            checkAndSetBorder(self.newPassword, newPassword) or \
+            checkAndSetBorder(self.confirmPassword, confirmPassword):
+            return
+
+        if newPassword != confirmPassword:
+            shop_popup("Bilgilendirme", "Yeni şifreleriniz aynı değildir. Lütfen kontrol edin!", "warning", None)
+            return
+        elif oldPassword == confirmPassword:
+            shop_popup("Bilgilendirme", "Hiç bir değişiklik yapmadınız. Lütfen kontrol edin!", "warning", None)
+            return
+        else: 
+            res = update_password(newPassword, oldPassword)
+            if res["statusCode"] == 200: 
+                shop_popup("Bilgilendirme", "Şifreniz başarıyla güncellendi!", "info", None)
+                self.oldPassword.setText("")
+                self.newPassword.setText("")
+                self.confirmPassword.setText("")
+            if res["statusCode"] == 501: shop_popup("Hata", "Bir hata oluştu. Tekrar deneyiniz!", "error", None)
+            if res["statusCode"] == 401: shop_popup("Hata", "Eski şifrenizi yanlış girdiniz!", "error", None)
+
+    ##UPDATE NAME
+    def updateName(self):
+        oldName = retrieve_data()["name"]
+        newName = self.fullName.text()
+
+        if checkAndSetBorder(self.fullName, newName): return
+        if oldName == newName: 
+            shop_popup("Bilgilendirme", "Hiç bir değişiklik yapmadınız. Lütfen kontrol edin!", "warning", None)
+            return
+        res = update_name(newName)
+        if res["statusCode"] == 200:
+            shop_popup("Bilgilendirme", "Adınız başarıyla güncellendi!", "info", None)
+        if res["statusCode"] == 501: shop_popup("Hata", "Bir hata oluştu. Tekrar deneyiniz!", "error", None)
