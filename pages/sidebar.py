@@ -1,5 +1,5 @@
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QDialog, QListView
+from PyQt5.QtWidgets import QDialog, QListView, QApplication
 import sqlite3
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt
@@ -20,17 +20,28 @@ class SideBarScreen(QDialog):
         self.icon_only_widget.hide()
         self.stackedWidget.setCurrentIndex(0)
         self.questionsBtn2.setChecked(True)
-        self.addQuestionBtn.clicked.connect(self.addQuestion)
-        self.addAnswerBtn.clicked.connect(self.addAnswer)
         self.logo.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
         self.logo_2.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
-        self.editQBtn_2.clicked.connect(self.edit_question)
-        self.saveQBtn_2.clicked.connect(self.save_question)
-        self.deleteQBtn_2.clicked.connect(self.delete_question)
-        self.insert_item_data(get_questions("all"), 'quest')
+
+        self.addQuestionBtn.clicked.connect(lambda: self.addElement("Question"))
+        self.addAnswerBtn.clicked.connect(lambda: self.addElement("Answer"))
+
+        self.editQBtn_2.clicked.connect(lambda: self.edit_element("Question"))
+        self.saveQBtn_2.clicked.connect(lambda: self.save_element("Question"))
+        self.deleteQBtn_2.clicked.connect(lambda: self.delete_element("Question"))
+
+        self.editABtn_2.clicked.connect(lambda: self.edit_element("Answer"))
+        self.saveABtn_2.clicked.connect(lambda: self.save_element("Answer"))
+        self.deleteABtn_2.clicked.connect(lambda: self.delete_element("Answer"))
+
+        self.logoutBtn.clicked.connect(self.logout)
+        self.logoutBtn2.clicked.connect(self.logout)
+
+        self.insert_item_data(get_item("all", "Question"), 'quest')
     
     def goToLogin(self):
         self.widget.setCurrentIndex(self.widget.currentIndex()-1)
+
 
     def insert_item_data(self, data, page):
         list_view = None
@@ -40,6 +51,8 @@ class SideBarScreen(QDialog):
             list_view = self.answersPage.findChild(QListView)
         elif page == "edit_question":
             list_view = self.editQPage.findChild(QListView)
+        elif page == "edit_answer":
+            list_view = self.editAPage.findChild(QListView)
         
         if list_view:
             model = QStandardItemModel()
@@ -67,39 +80,39 @@ class SideBarScreen(QDialog):
         
         if search_text:
             if  self.stackedWidget.currentIndex() == 0:
-                self.insert_item_data(search_questions(search_text), 'quest')
+                self.insert_item_data(search_item(search_text, "Question"), 'quest')
             elif  self.stackedWidget.currentIndex() == 1:
-                self.insert_item_data(search_answers(search_text), 'ans')
+                self.insert_item_data(search_item(search_text, "Answer"), 'ans')
         else:
             if  self.stackedWidget.currentIndex() == 0:
-                self.insert_item_data(get_questions("all"), 'quest')
+                self.insert_item_data(get_item("all", "Question"), 'quest')
             elif  self.stackedWidget.currentIndex() == 1:
-                self.insert_item_data(get_answers("all"), 'ans')
+                self.insert_item_data(get_item("all", "Answer"), 'ans')
 
 
     ## functions for changing menu page
     def on_questionsBtn_toggled(self):
         # questions page
         self.stackedWidget.setCurrentIndex(0)
-        self.insert_item_data(get_questions("all"), 'quest')
+        self.insert_item_data(get_item("all", "Question"), 'quest')
         self.searchFrame.show()
     
     def on_questionsBtn2_toggled(self):
         # questions page
         self.stackedWidget.setCurrentIndex(0)
-        self.insert_item_data(get_questions("all"), 'quest')
+        self.insert_item_data(get_item("all", "Question"), 'quest')
         self.searchFrame.show()
 
     def on_answersBtn_toggled(self):
         # answers page
         self.stackedWidget.setCurrentIndex(1)
-        self.insert_item_data(get_answers("all"), 'ans')
+        self.insert_item_data(get_item("all", "Answer"), 'ans')
         self.searchFrame.show()
 
     def on_answersBtn2_toggled(self):
         # answers page
         self.stackedWidget.setCurrentIndex(1)
-        self.insert_item_data(get_answers("all"), 'ans')
+        self.insert_item_data(get_item("all", "Answer"), 'ans')
         self.searchFrame.show()
 
     def on_addQBtn_toggled(self):
@@ -114,13 +127,13 @@ class SideBarScreen(QDialog):
 
     def on_editQBtn_toggled(self):
         #EDIT Question Page
-        self.insert_item_data(get_questions("with_id"), 'quest')
+        self.insert_item_data(get_item("with_id", "Question"), 'quest')
         self.stackedWidget.setCurrentIndex(3) 
         self.searchFrame.hide()
 
     def on_editQBtn2_toggled(self):
         #EDIT Question Page
-        self.insert_item_data(get_questions("with_id"), 'edit_question')
+        self.insert_item_data(get_item("with_id", "Question"), 'edit_question')
         self.stackedWidget.setCurrentIndex(3)
         self.searchFrame.hide()
 
@@ -136,11 +149,13 @@ class SideBarScreen(QDialog):
 
     def on_editABtn_toggled(self):
         #EDIT Answer Page
+        self.insert_item_data(get_item("with_id", "Answer"), 'edit_answer')
         self.stackedWidget.setCurrentIndex(5) 
         self.searchFrame.hide()
 
     def on_editABtn2_toggled(self):
         #EDIT Answer Page
+        self.insert_item_data(get_item("with_id", "Answer"), 'edit_answer')
         self.stackedWidget.setCurrentIndex(5)
         self.searchFrame.hide()
 
@@ -158,115 +173,162 @@ class SideBarScreen(QDialog):
     def setStyles(self, state, element): 
 
         e = None
-        text = None
-        if element == "ans":
+        if element == "Answer":
             e = self.addNewA
-            text = "Answer"
-        elif element == "ques":
+        elif element == "Question":
             e = self.addNewQ
-            text = "Question"
             
         
         if state == 'true':
             e.setStyleSheet("color: green;")
-            e.setText(text + ' added successfully!')
+            e.setText(f'{element} added successfully!')
         elif state == 'false':
             e.setStyleSheet("color: red;")
-            e.setText('Please enter a ' + text + '!')
+            e.setText(f'Please enter a {element} !')
         else:
             e.setStyleSheet("")
-            e.setText('Add new ' + text)
+            e.setText(f'Add new {element}')
 
 
-    ## HANDLE ADD QUESTION
-    def addQuestion(self):
-        question = self.addQInput.toPlainText().strip()
+    ## ADD ELEMENT(QUESTION/ANSWER)
+    def addElement(self, element):
+        text = None
+        input = None
 
-        if not question:
-            self.setStyles("false", "ques")
-            set_timeout(2, lambda: self.setStyles("", "ques"))
+        if element == "Question":
+            text = self.addQInput.toPlainText().strip()
+            input = self.addQInput
+        if element == "Answer":
+            text = self.addAInput.toPlainText().strip()
+            input = self.addAInput
+        
+
+        if not text:
+            self.setStyles("false", element)
+            set_timeout(2, lambda: self.setStyles("", element))
             return
         else:
-            res = add_question(question)
+            res = add_element(text, element)
             if res["statusCode"] == 200:
-                print(question)
-                self.setStyles("true", "ques")
-                self.addQInput.clear()
-                set_timeout(3, lambda: self.setStyles("", "ques")) 
+                print(text)
+                self.setStyles("true", element)
+                input.clear()
+                set_timeout(3, lambda: self.setStyles("", element)) 
             elif res["statusCode"] == 401:
                 print("Unauthorized")
                 self.goToLogin()
             else:
                 print(f"Error adding question: {res['statusCode']}")
 
+    edit_element_text = None
+    edit_element_id = None
+    is_selected_element_row = False
 
-    ## HANDLE ADD ANSWER
-    def addAnswer(self):
-        answer = self.addAInput.toPlainText().strip()
+    ## EDIT ELEMENT(QUESTION/ANSWER)
+    def edit_element(self, element):
+        list_view = None
+        input = None
 
-        if not answer:
-            self.setStyles("false", "ans")
-            set_timeout(2, lambda: self.setStyles("", "ans"))
-            return
-        else:
-            res = add_answer(answer)
-            if res["statusCode"] == 200:
-                print(answer)
-                self.setStyles("true", "ans")
-                self.addQInput.clear()
-                set_timeout(3, lambda: self.setStyles("", "ans")) 
-            elif res["statusCode"] == 401:
-                print("Unauthorized")
-                self.goToLogin()
-            else:
-                print(f"Error adding answer: {res['statusCode']}")
-
-    ## HANDLE EDIT QUESTION
-    edit_question_text = None
-    edit_question_id = None
-    is_selected_q_row = False
-    def edit_question(self):
-        list_view = self.editQPage.findChild(QListView, 'editQList')
+        if element == "Question":
+            list_view = self.editQPage.findChild(QListView, 'editQList')
+            input = self.editQInput
+        if element == "Answer":
+            list_view = self.editAPage.findChild(QListView, 'editAList')
+            input = self.editAInput
+            
         if list_view:
             selected_index = list_view.currentIndex()
             selected_row = list_view.currentIndex().row()
             if selected_row != -1:
-                question = list_view.model().item(selected_row).text().strip()
-                self.edit_question_id = list_view.model().data(selected_index, Qt.UserRole)  # Retrieve the ID
-                self.edit_question_text = question
-                self.is_selected_q_row = True
-                self.editQInput.setText(question)
+                item = list_view.model().item(selected_row).text().strip()
+                self.edit_element_id = list_view.model().data(selected_index, Qt.UserRole)  # Retrieve the ID
+                self.edit_element_text = item
+                self.is_selected_element_row = True
+                input.setText(item)
             else:
                 shop_popup("Information", "Please select a row", "info", None)
-                self.is_selected_q_row = False
+                self.is_selected_element_row = False
         else:
             print("List view not found")
 
-    def save_question(self):
-        if not self.is_selected_q_row: 
-            print(f'row: {self.is_selected_q_row}, text: {self.edit_question_text}, id: {self.edit_question_id}')
+
+    ## SAVE ELEMENT(QUESTION/ANSWER)
+    def save_element(self, element):
+        list_view = None
+        entity = None
+        input = None
+
+        if element == "Question":
+            list_view = self.editQPage.findChild(QListView, 'editQList')
+            entity = self.editQInput.toPlainText().strip()
+            input = self.editQInput
+        if element == "Answer":
+            list_view = self.editAPage.findChild(QListView, 'editAList')
+            entity = self.editAInput.toPlainText().strip()
+            input = self.editAInput
+
+        selected_row = list_view.currentIndex().row()
+        
+
+        if selected_row == -1: 
+            print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
             shop_popup("Information", "Please select a row", "info", None)
             return
-        question = self.editQInput.toPlainText().strip()
-        if question ==  self.edit_question_text:
-            shop_popup("Information", "No change has made, Please make sure u made a change!", "info", None)
-        else: 
-            res = update_question(question, self.edit_question_id)
+        
+        if entity ==  self.edit_element_text:
+            shop_popup("Information", "No change has made, Please make sure you have made a change!", "info", None)
+        elif entity: 
+            res = update_element(entity, self.edit_element_id, element)
             if res["statusCode"] == 200:
-                    shop_popup("Information", "Question updated successfully", "info", None)
+                    # empty the edit input after editing
+                    input.setText("")
+                    # Update the item text in the list view
+                    model = list_view.model()
+                    item = model.item(selected_row)
+                    item.setText(entity)                 
+                    shop_popup("Information", f"The {element} updated successfully", "info", None)
             elif res["statusCode"] == 401:
                 shop_popup("Warning", "Un authorized", "warning", None)
-    
-    def delete_question(self):
-        if not self.is_selected_q_row: 
-            print(f'row: {self.is_selected_q_row}, text: {self.edit_question_text}, id: {self.edit_question_id}')
+        else:
+            shop_popup("Information", "Please edit the element to save it.", "info", None)
+
+
+    ## DELETE ELEMENT(QUESTION/ANSWER)
+    def delete_element(self, element):
+        list_view = None
+        input = None
+
+        if element == "Question":
+            list_view = self.editQPage.findChild(QListView, 'editQList')
+            input = self.editQInput
+        if element == "Answer":
+            list_view = self.editAPage.findChild(QListView, 'editAList')
+            input = self.editAInput
+
+        selected_row = list_view.currentIndex().row()
+        if selected_row == -1:  
+            print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
             shop_popup("Information", "Please select a row", "info", None)
             return
         else: 
             if shop_popup("Warning", "Are you sure you want to delete the selected item ?", "warning", True) == "OK":
-                print(f'id : {self.edit_question_id}')
-                res = destroy_question(self.edit_question_id)
+                #print(f'id : {self.edit_element_id}')
+                res = destroy_element(self.edit_element_id, element)
                 if res["statusCode"] == 200:
-                    shop_popup("Information", "Question deleted successfully", "info", None)
+                    # Delete the row from the model
+                    model = list_view.model()
+                    model.removeRow(selected_row)
+                    # empty the edit input after deletion
+                    input.setText("")
+                    # show  a message to user
+                    shop_popup("Information", f"The {element} deleted successfully", "info", None)
                 elif res["statusCode"] == 401:
                     shop_popup("Warning", "Un authorized", "warning", None)
+
+    
+    ## LOGOUT USER AND CLOSE THE APP
+    def logout(self):
+        print("Logging out...")
+        # Close the application
+        remove_id()
+        QApplication.quit()

@@ -3,6 +3,7 @@ from PyQt5.QtGui import QDesktopServices
 import json
 import threading
 from PyQt5.QtWidgets import QMessageBox
+import os
 
 user_id_path = 'json/local_storage.json'
 
@@ -21,14 +22,14 @@ def checkAndSetBorder(field, value):
         return False
 
 
-# Storing data
+# Storing Id
 def store_id(user_id):
     data = {'userID': user_id}
     with open(user_id_path, 'w') as file:
         json.dump(data, file)
     #print(f'Stored ID: {user_id}')
 
-# Retrieving data
+# Retrieving ID
 def retrieve_id():
     try:
         with open(user_id_path, 'r') as file:
@@ -47,6 +48,17 @@ def retrieve_id():
     #print(f'Retrieved ID: {user_id}')
     return user_id
 
+# Removing ID
+def remove_id():
+    try:
+        if os.path.exists(user_id_path):
+            os.remove(user_id_path)
+            print(f"User ID file '{user_id_path}' has been removed.")
+        else:
+            print(f"User ID file '{user_id_path}' does not exist.")
+    except Exception as e:
+        print(f"An error occurred while trying to remove the user ID file: {e}")
+
 
 ## DELAYED EXCUTION
 def set_timeout(delay, func):
@@ -60,8 +72,8 @@ button_val = None
 def popup_button(i):
     global button_val
     button_val = i.text()  # Get the text of the button clicked
-    print(f"btn {button_val}")
-    print(f"i = {i.text()}")
+    #print(f"btn {button_val}")
+    #print(f"i = {i.text()}")
 
 def shop_popup(text, info, type, btn):
     global button_val
@@ -92,7 +104,7 @@ def shop_popup(text, info, type, btn):
 
     x = msg.exec_()
     
-    print(f"btn {button_val}")
+    #print(f"btn {button_val}")
 
     return button_val
 
@@ -124,7 +136,8 @@ def fix_ui_file(ui_file):
         'QAbstractItemView::SelectionMode::SingleSelection' : 'QAbstractItemView::SingleSelection',
         'Qt::AlignmentFlag::AlignTop' : 'Qt::AlignTop',
         'QFrame::Shadow::Plain' : 'QFrame::Plain',
-        'QAbstractItemView::SelectionBehavior::SelectRows' : 'QAbstractItemView::SelectRows'
+        'QAbstractItemView::SelectionBehavior::SelectRows' : 'QAbstractItemView::SelectRows',
+        'QAbstractItemView::SelectionBehavior::SelectItems' : 'QAbstractItemView::SelectItems',
     }
 
     with open(ui_file, 'r') as file:

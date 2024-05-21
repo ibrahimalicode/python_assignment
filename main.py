@@ -8,8 +8,8 @@ app = QApplication(sys.argv)
 widget = QtWidgets.QStackedWidget()
 
 # Create an instance of the screens
-login = SideBarScreen() ## i don't have to login everytime to see the sidebar when working.
-#login = LoginScreen() 
+#login = SideBarScreen() ## i don't have to login everytime to see the sidebar when working.
+login = LoginScreen() 
 register = RegisterScreen()
 
 widget.addWidget(login)

@@ -1,16 +1,61 @@
 from utils.generalFunctions import *
 import sqlite3
+import uuid
+import bcrypt
+
+
+## REGISTER USER
+def register_user(name, email, password):
+    conn = sqlite3.connect("db/db.DB")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+
+    id = str(uuid.uuid4())  # Generate a unique ID
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt) #Hash the password
+        
+    try:
+        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+        existing_user = cursor.fetchone()
+        
+        if existing_user:
+            data["statusCode"] = 300
+            return data
+        
+        # Insert the data into the database
+        sql = "INSERT INTO users (id, name, email, password) VALUES (?, ?, ?, ?)"
+        cursor.execute(sql, (id, name, email, hashed_password))
+        conn.commit()
+
+        data["statusCode"] = 200
+        
+    except sqlite3.Error as e:
+        shop_popup("Error", f"Error inserting user into database: {str(e)}", "error", None)
+        print( "Error", f"Error inserting user into database: {str(e)}")
+        data["statusCode"] = 501
+        
+    finally:
+        conn.close()
+    
+    return data
+
 
 ## RELATED TO QUESTIONS
-def get_questions(type):
+def get_item(type, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
     
     
     def get_with_id():
+        sql = None
         user_id = retrieve_id()
-        if user_id is not None:
+
+        if element == "Question":
             sql = "SELECT * FROM questions WHERE UID = ?"
+        if element == "Answer":
+            sql = "SELECT * FROM answesr WHERE UID = ?"
+
+        if user_id is not None:
             try:
                 data = cursor.execute(sql, (user_id,)).fetchall()
                 return data
@@ -23,7 +68,12 @@ def get_questions(type):
             return None
     
     def get_all():
-        sql = "SELECT * FROM questions LIMIT 50"
+        sql = None
+        if element == "Question":
+            sql = "SELECT * FROM questions LIMIT 50"
+        if element == "Answer":
+            sql = "SELECT * FROM answers LIMIT 50"
+
         try:
             data = cursor.execute(sql).fetchall()
             return data
@@ -39,12 +89,16 @@ def get_questions(type):
         return get_with_id()
 
 
-
-def search_questions(search_text):
+def search_item(search_text, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
 
-    sql = "SELECT * FROM questions WHERE text LIKE ?"
+    sql = None
+    if element == "Question":
+        sql = "SELECT * FROM questions WHERE text LIKE ?"
+    if element == "Answer":
+        sql = "SELECT * FROM answers WHERE text LIKE ?"
+
     try:
         data = cursor.execute(sql, ('%' + search_text + '%',)).fetchall()
         return data
@@ -55,7 +109,7 @@ def search_questions(search_text):
         conn.close()
 
 
-#RELATED TO ANSWERS
+""" #RELATED TO ANSWERS
 def get_answers(type):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
@@ -92,6 +146,7 @@ def get_answers(type):
     elif type == "with_id":
         return get_with_id()
 
+
 def search_answers(search_text):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
@@ -105,27 +160,33 @@ def search_answers(search_text):
         return None
     finally:
         conn.close()
-
+ """
 
 ### ADDING STUFF
-
-##ADD QUESTION
-def add_question(question):
+## ADD ELEMENT(QUESTION/ANSWER)
+def add_element(text, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
-    id = retrieve_id()
+    user_id = retrieve_id()
+    id = str(uuid.uuid4())  # Generate a unique ID for element
+
     data = {"statusCode": ""}
 
-    sql = "INSERT INTO questions (text, UID) VALUES (?, ?)"
+    sql = None
 
-    if id is not None:
+    if element == "Question":
+        sql = "INSERT INTO questions (text, UID, id) VALUES (?, ?, ?)"
+    if element == "Answer":
+        sql = "INSERT INTO answers (text, UID, id) VALUES (?, ?, ?)"
+
+    if user_id is not None:
       try:
-        cursor.execute(sql, (question, id))
+        cursor.execute(sql, (text, user_id, id))
         conn.commit()
         data["statusCode"] = 200
         return data
       except sqlite3.Error as e:
-          print(f'Error searching: {e}')
+          print(f'Error adding {element}: {e}')
           data["statusCode"] = 501
           return data
       finally:
@@ -133,6 +194,7 @@ def add_question(question):
     else:
         data["statusCode"] = 401
         return data
+
 
 ##ADD ANSWER
 def add_answer(answer):
@@ -161,65 +223,54 @@ def add_answer(answer):
 
 
 ## EDITING STUFF
-
-## UPDATE QUESTION
-def update_question(question, id):
+## UPDATE ELEMENT(QUESTION/ANSWER)
+def update_element(question, id, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
     data = {"statusCode": ""}
-    print(f"the id is here: {id}")
+    #print(f"the id is here: {id}")
 
-    sql = "UPDATE questions SET text = ? WHERE id = ?"
+    sql = None
+
+    if element == "Question":
+        sql = "UPDATE questions SET text = ? WHERE id = ?"
+    if element == "Answer":
+        sql = "UPDATE answers SET text = ? WHERE id = ?"
+    
     try:
         cursor.execute(sql, (question, id))
         conn.commit()
         data["statusCode"] = 200
     except sqlite3.Error as e:
-        print(f'Error updating question: {e}')
+        print(f'Error updating element the {element}: {e}')
         data["statusCode"] = 500
     finally:
         conn.close()
 
     return data
 
-
-## UPDATE ANSWER
-def update_answer(question, id):
-    conn = sqlite3.connect("db/db.db")
-    cursor = conn.cursor()
-    data = {"statusCode": ""}
-    print(f"the id is here: {id}")
-
-    sql = "UPDATE answers SET text = ? WHERE id = ?"
-
-    try:
-        cursor.execute(sql, (question, id))
-        conn.commit()
-        data["statusCode"] = 200
-    except sqlite3.Error as e:
-        print(f'Error updating answer: {e}')
-        data["statusCode"] = 500
-    finally:
-        conn.close()
-
-    return data
 
 ## DELETE STUFF
-## Deleting question
-def destroy_question(id):
+## DELETE ELEMENT(QUESTION/ANSWER)
+def destroy_element(id, element):
     conn = sqlite3.connect("db/db.db")
     cursor = conn.cursor()
     data = {"statusCode": ""}
-    print(f"the id is here delete: {id}")
+    #print(f"the id is here delete: {id}")
 
-    sql = "DELETE FROM questions WHERE id = ?"
+    sql = None
+
+    if element == "Question":
+        sql = "DELETE FROM questions WHERE id = ?"
+    if element == "Answer":
+        sql = "DELETE FROM answers WHERE id = ?"
 
     try:
         cursor.execute(sql, (id,))
         conn.commit()
         data["statusCode"] = 200
     except sqlite3.Error as e:
-        print(f'Error deleting question: {e}')
+        print(f'Error deleting element the {element}: {e}')
         data["statusCode"] = 500
     finally:
         conn.close()
@@ -227,23 +278,3 @@ def destroy_question(id):
     return data
 
 
-## Deleting answer
-def destroy_answer(id):
-    conn = sqlite3.connect("db/db.db")
-    cursor = conn.cursor()
-    data = {"statusCode": ""}
-    print(f"the id is here: {id}")
-
-    sql = "DELETE FROM answers WHERE id = ?"
-
-    try:
-        cursor.execute(sql, (id,))
-        conn.commit()
-        data["statusCode"] = 200
-    except sqlite3.Error as e:
-        print(f'Error deleting answer: {e}')
-        data["statusCode"] = 500
-    finally:
-        conn.close()
-
-    return data

@@ -3,9 +3,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 from utils.generalFunctions import *
 #from pages.login import LoginScreen
-import sqlite3
+from api.fetch import *
 from PyQt5.QtWidgets import QMessageBox
-import bcrypt
+
 
 registerUI = "components/register.ui"
 
@@ -25,10 +25,6 @@ class RegisterScreen(QDialog):
         name = self.nameField.text()
         email = self.emailField.text()
         password = self.passwordField.text()
-
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-
         
         if checkAndSetBorder(self.nameField, name) or \
             checkAndSetBorder(self.emailField, email) or \
@@ -36,32 +32,15 @@ class RegisterScreen(QDialog):
             return
         
         #print(f"Name: {name}\nEmail: {email}\nPassword: {password}")
-        conn = sqlite3.connect("db/db.DB")
-        cursor = conn.cursor()
-        
-        try:
-            cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
-            existing_user = cursor.fetchone()
-            
-            if existing_user:
-                self.errorLabel_2.setText("The user exists with this email.")
-                return
-            
-            # Insert the data into the database
-            sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)"
-            cursor.execute(sql, (name, email, hashed_password))
-            conn.commit()
-
+        res = register_user(name, email, password)
+        if res["statusCode"] == 300:
+            self.errorLabel_2.setText("The user exists with this email.")
+        elif res["statusCode"] == 200:
             self.errorLabel_2.setText("")
             shop_popup("Success", "User created successfully!", "info", None)
             self.goToLogin()
-            
-        except sqlite3.Error as e:
-            shop_popup("Error", f"Error inserting user into database: {str(e)}", "error", None)
-            print( "Error", f"Error inserting user into database: {str(e)}")
-            
-        finally:
-            conn.close()
+        elif res["statusCode"] == 501:
+            shop_popup("Error", "Enternal error", "error", None)
 
 
     def goToLogin(self):
