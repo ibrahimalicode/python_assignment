@@ -2,6 +2,7 @@ from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
 import json
 import threading
+from PyQt5.QtWidgets import QMessageBox
 
 user_id_path = 'json/local_storage.json'
 
@@ -53,6 +54,51 @@ def set_timeout(delay, func):
     timer.start()
 
 
+##POP UP
+button_val = None
+
+def popup_button(i):
+    global button_val
+    button_val = i.text()  # Get the text of the button clicked
+    print(f"btn {button_val}")
+    print(f"i = {i.text()}")
+
+def shop_popup(text, info, type, btn):
+    global button_val
+    msg = QMessageBox()
+    #msg.setWindowTitle("Success") ## Not needed
+
+    if text: 
+        msg.setText(text)
+    if info: 
+        msg.setInformativeText(info)
+
+    if type == "warning":
+        msg.setIcon(QMessageBox.Warning)
+    elif type == "question":
+        msg.setIcon(QMessageBox.Question)
+    elif type == "error":
+        msg.setIcon(QMessageBox.Critical)
+    elif type == "info":
+        msg.setIcon(QMessageBox.Information)
+
+    # Add specific buttons and connect their clicked signals
+    if btn:
+        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    else:
+        msg.setStandardButtons(QMessageBox.Ok)
+    
+    msg.buttonClicked.connect(popup_button)
+
+    x = msg.exec_()
+    
+    print(f"btn {button_val}")
+
+    return button_val
+
+
+
+
 ## FIX UI FILES
 def fix_ui_file(ui_file):
     replacements = {
@@ -77,7 +123,8 @@ def fix_ui_file(ui_file):
         'QAbstractItemView::SelectionMode::NoSelection' : 'QAbstractItemView::NoSelection',
         'QAbstractItemView::SelectionMode::SingleSelection' : 'QAbstractItemView::SingleSelection',
         'Qt::AlignmentFlag::AlignTop' : 'Qt::AlignTop',
-        'QFrame::Shadow::Plain' : 'QFrame::Plain'
+        'QFrame::Shadow::Plain' : 'QFrame::Plain',
+        'QAbstractItemView::SelectionBehavior::SelectRows' : 'QAbstractItemView::SelectRows'
     }
 
     with open(ui_file, 'r') as file:

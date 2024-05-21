@@ -8,15 +8,24 @@ app = QApplication(sys.argv)
 widget = QtWidgets.QStackedWidget()
 
 # Create an instance of the screens
-login = SideBarScreen() #LoginScreen()
+login = SideBarScreen() ## i don't have to login everytime to see the sidebar when working.
+#login = LoginScreen() 
 register = RegisterScreen()
 
 widget.addWidget(login)
 widget.addWidget(register)
 
-widget.setMinimumWidth(500)
+#widget.setFixedWidth(500)  ## WE can do these in the designer. so no need to set it here.
+#widget.setMinimumWidth(500)
 #widget.setMinimumHeight(808)
 widget.show()
+
+## SET THE PAGE TO CENTER OF THE SCREEN (took it from chatGPT)
+screen_geometry = app.desktop().availableGeometry() # get the total screen size of the computer
+x = (screen_geometry.width() - widget.width()) // 2 
+y = (screen_geometry.height() - widget.height()) // 2
+widget.move(x, y)
+
 
 # Making widgets accessible globally
 RegisterScreen.widget = widget
@@ -31,4 +40,3 @@ except:
     print("Exiting")
 
 
-#pyside6-rcc5  components/resources.py -o resource_rc.qrc

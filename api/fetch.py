@@ -15,7 +15,7 @@ def get_questions(type):
                 data = cursor.execute(sql, (user_id,)).fetchall()
                 return data
             except sqlite3.Error as e:
-                print(f'Error searching: {e}')
+                print(f'Error getting the question with id: {e}')
                 return None
             finally:
                 conn.close()
@@ -28,7 +28,7 @@ def get_questions(type):
             data = cursor.execute(sql).fetchall()
             return data
         except sqlite3.Error as e:
-            print(f'Error searching: {e}')
+            print(f'Error getting questions: {e}')
             return None
         finally:
             conn.close()
@@ -69,7 +69,7 @@ def get_answers(type):
                 data = cursor.execute(sql, (user_id,)).fetchall()
                 return data
             except sqlite3.Error as e:
-                print(f'Error searching: {e}')
+                print(f'Error getting the answer with id: {e}')
                 return None
             finally:
                 conn.close()
@@ -82,7 +82,7 @@ def get_answers(type):
             data = cursor.execute(sql).fetchall()
             return data
         except sqlite3.Error as e:
-            print(f'Error searching: {e}')
+            print(f'Error getting answers: {e}')
             return None
         finally:
             conn.close()
@@ -158,3 +158,92 @@ def add_answer(answer):
     else:
         data["statusCode"] = 401
         return data
+
+
+## EDITING STUFF
+
+## UPDATE QUESTION
+def update_question(question, id):
+    conn = sqlite3.connect("db/db.db")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+    print(f"the id is here: {id}")
+
+    sql = "UPDATE questions SET text = ? WHERE id = ?"
+    try:
+        cursor.execute(sql, (question, id))
+        conn.commit()
+        data["statusCode"] = 200
+    except sqlite3.Error as e:
+        print(f'Error updating question: {e}')
+        data["statusCode"] = 500
+    finally:
+        conn.close()
+
+    return data
+
+
+## UPDATE ANSWER
+def update_answer(question, id):
+    conn = sqlite3.connect("db/db.db")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+    print(f"the id is here: {id}")
+
+    sql = "UPDATE answers SET text = ? WHERE id = ?"
+
+    try:
+        cursor.execute(sql, (question, id))
+        conn.commit()
+        data["statusCode"] = 200
+    except sqlite3.Error as e:
+        print(f'Error updating answer: {e}')
+        data["statusCode"] = 500
+    finally:
+        conn.close()
+
+    return data
+
+## DELETE STUFF
+## Deleting question
+def destroy_question(id):
+    conn = sqlite3.connect("db/db.db")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+    print(f"the id is here delete: {id}")
+
+    sql = "DELETE FROM questions WHERE id = ?"
+
+    try:
+        cursor.execute(sql, (id,))
+        conn.commit()
+        data["statusCode"] = 200
+    except sqlite3.Error as e:
+        print(f'Error deleting question: {e}')
+        data["statusCode"] = 500
+    finally:
+        conn.close()
+
+    return data
+
+
+## Deleting answer
+def destroy_answer(id):
+    conn = sqlite3.connect("db/db.db")
+    cursor = conn.cursor()
+    data = {"statusCode": ""}
+    print(f"the id is here: {id}")
+
+    sql = "DELETE FROM answers WHERE id = ?"
+
+    try:
+        cursor.execute(sql, (id,))
+        conn.commit()
+        data["statusCode"] = 200
+    except sqlite3.Error as e:
+        print(f'Error deleting answer: {e}')
+        data["statusCode"] = 500
+    finally:
+        conn.close()
+
+    return data

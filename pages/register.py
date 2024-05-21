@@ -19,6 +19,8 @@ class RegisterScreen(QDialog):
         self.toLoginBtn.clicked.connect(self.goToLogin)
         self.ibrahimAliBtn.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
     
+
+    
     def createUser(self):
         name = self.nameField.text()
         email = self.emailField.text()
@@ -51,11 +53,11 @@ class RegisterScreen(QDialog):
             conn.commit()
 
             self.errorLabel_2.setText("")
-            QMessageBox.information(self, "Success", "User created successfully!")
+            shop_popup("Success", "User created successfully!", "info", None)
             self.goToLogin()
             
         except sqlite3.Error as e:
-            #QMessageBox.critical(self, "Error", f"Error inserting user into database: {str(e)}")
+            shop_popup("Error", f"Error inserting user into database: {str(e)}", "error", None)
             print( "Error", f"Error inserting user into database: {str(e)}")
             
         finally:
