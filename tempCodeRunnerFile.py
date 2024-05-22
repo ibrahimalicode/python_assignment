@@ -1,2 +1,0 @@
-
-ConfirmScreen.widget = widget
