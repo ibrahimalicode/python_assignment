@@ -226,7 +226,7 @@ class SideBarScreen(QDialog):
         else:
             res = add_element(text, element)
             if res["statusCode"] == 200:
-                print(text)
+                #print(text)
                 self.setStyles("true", element)
                 input.clear()
                 set_timeout(3, lambda: self.setStyles("", element)) 
@@ -287,7 +287,7 @@ class SideBarScreen(QDialog):
         
 
         if selected_row == -1: 
-            print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
+            #print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
             shop_popup("Information", "Please select a row", "info", None)
             return
         
@@ -323,7 +323,7 @@ class SideBarScreen(QDialog):
 
         selected_row = list_view.currentIndex().row()
         if selected_row == -1:  
-            print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
+            #print(f'row: {self.is_selected_element_row}, text: {self.edit_element_text}, id: {self.edit_element_id}')
             shop_popup("Information", "Please select a row", "info", None)
             return
         else: 

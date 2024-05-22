@@ -40,6 +40,6 @@ ConfirmScreen.widget = widget
 try:
     sys.exit(app.exec())
 except:
-    print("Exiting")
+    print("Exiting...")
 
 

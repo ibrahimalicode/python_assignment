@@ -43,7 +43,7 @@ class RegisterScreen(QDialog):
             return
         else: error.setText("")
 
-        #print(f"Name: {name}\nEmail: {email}\nPassword: {password}")
+        #print(f"Name: {name}\nEmail: {email}\nPassword: {password}") 
         self.goToConfirm(name, email, password)
         self.createAccBtn.setEnabled(False)  # Disable the button
 

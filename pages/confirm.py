@@ -31,7 +31,7 @@ class ConfirmScreen(QDialog):
         if self.name and self.email and self.password:
             # Generate a random 4-digit confirmation code
             self.confirmation_code = ''.join(random.choices('0123456789', k=4))
-            print(f"Generated confirmation_code: {self.confirmation_code}")
+            #print(f"Generated confirmation_code: {self.confirmation_code}")
             #Send email
             send_confirmation_code(self.email, self.name, self.confirmation_code)
 
@@ -40,8 +40,8 @@ class ConfirmScreen(QDialog):
 
     def createUserConfirmed(self, confirmation_code):
         entered_code = self.codeField.text()
-        print(f"Entered code: {entered_code}")
-        print(f"Passed confirmation_code: {confirmation_code}")
+        #print(f"Entered code: {entered_code}")
+        #print(f"Passed confirmation_code: {confirmation_code}")
 
         if checkAndSetBorder(self.codeField, entered_code):
             self.errorLabel.setText("Lütfen doğrulama kodu giriniz 😡!")

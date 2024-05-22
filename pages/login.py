@@ -47,6 +47,6 @@ class LoginScreen(QDialog):
         if res["statusCode"] == 301: self.errorLabel.setText("Yanlış Şifre 🙅‍♂️!")
         if res["statusCode"] == 501: self.errorLabel.setText("Bir hata oluştu. Tekrar deneyin !")
         if res["statusCode"] == 200: self.errorLabel.setText(""), self.goToSideBar()
-        print(res)
+        #print(res)
 
 
