@@ -358,7 +358,7 @@ QPushButton::checked {
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -485,7 +485,7 @@ QPushButton::checked {
            </size>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+           <enum>Qt::LayoutDirection::LeftToRight</enum>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton{
@@ -568,7 +568,7 @@ QPushButton::checked {
            </font>
           </property>
           <property name="layoutDirection">
-           <enum>Qt::LeftToRight</enum>
+           <enum>Qt::LayoutDirection::LeftToRight</enum>
           </property>
           <property name="autoFillBackground">
            <bool>false</bool>
@@ -795,7 +795,7 @@ QPushButton::checked {
       <item>
        <spacer name="verticalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -911,7 +911,7 @@ font-size: 15px;
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -935,10 +935,10 @@ font-size: 15px;
               </size>
              </property>
              <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+              <enum>QFrame::Shape::StyledPanel</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+              <enum>QFrame::Shadow::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <property name="spacing">
@@ -1031,7 +1031,7 @@ QLineEdit::focus {
          <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -1064,7 +1064,7 @@ text-align: left;
 </string>
         </property>
         <property name="currentIndex">
-         <number>6</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="questionsPage">
          <layout class="QGridLayout" name="gridLayout_2">
@@ -1098,16 +1098,16 @@ QListView::item:selected {
 </string>
             </property>
             <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
+             <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
             </property>
             <property name="autoScroll">
              <bool>false</bool>
             </property>
             <property name="selectionMode">
-             <enum>QAbstractItemView::SingleSelection</enum>
+             <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
             </property>
             <property name="resizeMode">
-             <enum>QListView::Adjust</enum>
+             <enum>QListView::ResizeMode::Adjust</enum>
             </property>
             <property name="spacing">
              <number>0</number>
@@ -1125,7 +1125,7 @@ QListView::item:selected {
              <bool>false</bool>
             </property>
             <property name="itemAlignment">
-             <set>Qt::AlignLeading</set>
+             <set>Qt::AlignmentFlag::AlignLeading</set>
             </property>
            </widget>
           </item>
@@ -1161,13 +1161,13 @@ QListView::item:selected {
 }</string>
             </property>
             <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
+             <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
             </property>
             <property name="autoScroll">
              <bool>false</bool>
             </property>
             <property name="resizeMode">
-             <enum>QListView::Adjust</enum>
+             <enum>QListView::ResizeMode::Adjust</enum>
             </property>
             <property name="spacing">
              <number>0</number>
@@ -1179,7 +1179,7 @@ QListView::item:selected {
              <bool>true</bool>
             </property>
             <property name="itemAlignment">
-             <set>Qt::AlignLeading</set>
+             <set>Qt::AlignmentFlag::AlignLeading</set>
             </property>
            </widget>
           </item>
@@ -1236,7 +1236,7 @@ QListView::item:selected {
             </property>
            </widget>
           </item>
-          <item row="1" column="0" alignment="Qt::AlignRight">
+          <item row="1" column="0" alignment="Qt::AlignmentFlag::AlignRight">
            <widget class="QPushButton" name="addQuestionBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1267,7 +1267,7 @@ QListView::item:selected {
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
+             <enum>Qt::LayoutDirection::LeftToRight</enum>
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton{
@@ -1365,7 +1365,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
           <item row="3" column="0">
            <spacer name="verticalSpacer_3">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1411,7 +1411,7 @@ border-radius: 5px;</string>
             </property>
            </widget>
           </item>
-          <item alignment="Qt::AlignRight">
+          <item alignment="Qt::AlignmentFlag::AlignRight">
            <widget class="QFrame" name="qActionFrame">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1433,10 +1433,10 @@ QFrame{
 </string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::Shape::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
@@ -1593,10 +1593,10 @@ QListView::item:selected {
              <bool>false</bool>
             </property>
             <property name="selectionBehavior">
-             <enum>QAbstractItemView::SelectItems</enum>
+             <enum>QAbstractItemView::SelectionBehavior::SelectItems</enum>
             </property>
             <property name="resizeMode">
-             <enum>QListView::Adjust</enum>
+             <enum>QListView::ResizeMode::Adjust</enum>
             </property>
             <property name="batchSize">
              <number>1</number>
@@ -1666,7 +1666,7 @@ border-radius: 5px;</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
+          <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignLeft">
            <widget class="QLabel" name="addNewA">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1676,13 +1676,13 @@ border-radius: 5px;</string>
             </property>
             <property name="minimumSize">
              <size>
-              <width>100</width>
+              <width>104</width>
               <height>33</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>200</width>
+              <width>2000</width>
               <height>0</height>
              </size>
             </property>
@@ -1697,7 +1697,7 @@ border-radius: 5px;</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" alignment="Qt::AlignRight">
+          <item row="1" column="1" alignment="Qt::AlignmentFlag::AlignRight">
            <widget class="QPushButton" name="addAnswerBtn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1751,7 +1751,7 @@ border-radius: 5px;</string>
           <item row="3" column="0" colspan="2">
            <spacer name="verticalSpacer_4">
             <property name="orientation">
-             <enum>Qt::Vertical</enum>
+             <enum>Qt::Orientation::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -1797,7 +1797,7 @@ border-radius: 5px;</string>
             </property>
            </widget>
           </item>
-          <item alignment="Qt::AlignRight">
+          <item alignment="Qt::AlignmentFlag::AlignRight">
            <widget class="QFrame" name="AnsActionFrame">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1819,10 +1819,10 @@ QFrame{
 </string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::Shape::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <property name="spacing">
@@ -1988,7 +1988,7 @@ QListView::item:selected {
              <bool>false</bool>
             </property>
             <property name="resizeMode">
-             <enum>QListView::Adjust</enum>
+             <enum>QListView::ResizeMode::Adjust</enum>
             </property>
             <property name="batchSize">
              <number>1</number>
@@ -2033,10 +2033,10 @@ QListView::item:selected {
              </size>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::Shape::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="topMargin">
@@ -2045,7 +2045,7 @@ QListView::item:selected {
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <item alignment="Qt::AlignLeft">
+             <item alignment="Qt::AlignmentFlag::AlignLeft">
               <widget class="QFrame" name="frame">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2063,17 +2063,17 @@ QListView::item:selected {
                 <string notr="true">image: url(:/newPrefix/user.png);</string>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item alignment="Qt::AlignTop">
+          <item alignment="Qt::AlignmentFlag::AlignTop">
            <widget class="QFrame" name="profile_info_frame">
             <property name="minimumSize">
              <size>
@@ -2115,10 +2115,10 @@ border-radius: 7px;
 </string>
             </property>
             <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
+             <enum>QFrame::Shape::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Shadow::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <property name="spacing">
@@ -2127,7 +2127,7 @@ border-radius: 7px;
              <property name="topMargin">
               <number>20</number>
              </property>
-             <item alignment="Qt::AlignTop">
+             <item alignment="Qt::AlignmentFlag::AlignTop">
               <widget class="QFrame" name="frame_7">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -2148,10 +2148,10 @@ border-radius: 7px;
                 </size>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_11">
                 <property name="spacing">
@@ -2185,10 +2185,10 @@ border-color: #DEE3E7;
 }</string>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_11">
                    <property name="spacing">
@@ -2200,7 +2200,7 @@ border-color: #DEE3E7;
                    <property name="bottomMargin">
                     <number>10</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QLabel" name="label">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -2230,10 +2230,10 @@ font-weight: 500;</string>
                 <item>
                  <widget class="QFrame" name="frame_5">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_12">
                    <property name="spacing">
@@ -2245,7 +2245,7 @@ font-weight: 500;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QFrame" name="frame_12">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -2260,10 +2260,10 @@ font-weight: 500;</string>
                       </size>
                      </property>
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_14">
                       <property name="spacing">
@@ -2294,7 +2294,7 @@ font-weight: 500;</string>
                         </property>
                        </widget>
                       </item>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLineEdit" name="fullName">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2304,7 +2304,7 @@ font-weight: 500;</string>
                         </property>
                         <property name="minimumSize">
                          <size>
-                          <width>197</width>
+                          <width>280</width>
                           <height>42</height>
                          </size>
                         </property>
@@ -2332,10 +2332,10 @@ font-weight: 500;</string>
                 <item>
                  <widget class="QFrame" name="frame_6">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_15">
                    <property name="spacing">
@@ -2347,13 +2347,13 @@ font-weight: 500;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QFrame" name="frame_13">
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_16">
                       <property name="spacing">
@@ -2384,7 +2384,7 @@ font-weight: 500;</string>
                         </property>
                        </widget>
                       </item>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLineEdit" name="email">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2394,7 +2394,7 @@ font-weight: 500;</string>
                         </property>
                         <property name="minimumSize">
                          <size>
-                          <width>197</width>
+                          <width>280</width>
                           <height>42</height>
                          </size>
                         </property>
@@ -2440,10 +2440,10 @@ font-weight: 500;</string>
                 </size>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_17">
                 <property name="spacing">
@@ -2461,7 +2461,7 @@ font-weight: 500;</string>
                 <property name="bottomMargin">
                  <number>20</number>
                 </property>
-                <item alignment="Qt::AlignRight">
+                <item alignment="Qt::AlignmentFlag::AlignRight">
                  <widget class="QPushButton" name="savePersonalInfoBtn">
                   <property name="minimumSize">
                    <size>
@@ -2479,7 +2479,7 @@ font-weight: 500;</string>
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="layoutDirection">
-                   <enum>Qt::LeftToRight</enum>
+                   <enum>Qt::LayoutDirection::LeftToRight</enum>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QPushButton{
@@ -2498,7 +2498,7 @@ font-weight: 500;</string>
                </layout>
               </widget>
              </item>
-             <item alignment="Qt::AlignTop">
+             <item alignment="Qt::AlignmentFlag::AlignTop">
               <widget class="QFrame" name="frame_8">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -2507,10 +2507,10 @@ font-weight: 500;</string>
                 </sizepolicy>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_10">
                 <property name="spacing">
@@ -2538,10 +2538,10 @@ border-color: #DEE3E7;
 }</string>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_14">
                    <property name="spacing">
@@ -2556,7 +2556,7 @@ border-color: #DEE3E7;
                    <property name="bottomMargin">
                     <number>10</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QLabel" name="label_2">
                      <property name="styleSheet">
                       <string notr="true">font-size: 17px;
@@ -2573,10 +2573,10 @@ font-weight: 500;</string>
                 <item>
                  <widget class="QFrame" name="frame_10">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_15">
                    <property name="spacing">
@@ -2591,13 +2591,13 @@ font-weight: 500;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QFrame" name="frame_14">
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_10">
                       <property name="spacing">
@@ -2615,7 +2615,7 @@ font-weight: 500;</string>
                       <property name="bottomMargin">
                        <number>0</number>
                       </property>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLabel" name="label_5">
                         <property name="minimumSize">
                          <size>
@@ -2628,7 +2628,7 @@ font-weight: 500;</string>
                         </property>
                        </widget>
                       </item>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLineEdit" name="oldPassword">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2644,7 +2644,7 @@ font-weight: 500;</string>
                          <string/>
                         </property>
                         <property name="echoMode">
-                         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+                         <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
                         </property>
                        </widget>
                       </item>
@@ -2657,10 +2657,10 @@ font-weight: 500;</string>
                 <item>
                  <widget class="QFrame" name="frame_11">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_16">
                    <property name="spacing">
@@ -2678,13 +2678,13 @@ font-weight: 500;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QFrame" name="frame_15">
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_12">
                       <property name="spacing">
@@ -2725,7 +2725,7 @@ font-weight: 500;</string>
                          <string/>
                         </property>
                         <property name="echoMode">
-                         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+                         <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
                         </property>
                        </widget>
                       </item>
@@ -2738,10 +2738,10 @@ font-weight: 500;</string>
                 <item>
                  <widget class="QFrame" name="frame_16">
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_17">
                    <property name="spacing">
@@ -2756,13 +2756,13 @@ font-weight: 500;</string>
                    <property name="bottomMargin">
                     <number>0</number>
                    </property>
-                   <item alignment="Qt::AlignLeft">
+                   <item alignment="Qt::AlignmentFlag::AlignLeft">
                     <widget class="QFrame" name="frame_17">
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_13">
                       <property name="spacing">
@@ -2780,7 +2780,7 @@ font-weight: 500;</string>
                       <property name="bottomMargin">
                        <number>0</number>
                       </property>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLabel" name="label_7">
                         <property name="minimumSize">
                          <size>
@@ -2793,7 +2793,7 @@ font-weight: 500;</string>
                         </property>
                        </widget>
                       </item>
-                      <item alignment="Qt::AlignVCenter">
+                      <item alignment="Qt::AlignmentFlag::AlignVCenter">
                        <widget class="QLineEdit" name="confirmPassword">
                         <property name="styleSheet">
                          <string notr="true">	font-family: &quot;poppins&quot;;
@@ -2803,7 +2803,7 @@ font-weight: 500;</string>
                          <string/>
                         </property>
                         <property name="echoMode">
-                         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+                         <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
                         </property>
                        </widget>
                       </item>
@@ -2831,10 +2831,10 @@ font-weight: 500;</string>
                 </size>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <property name="spacing">
@@ -2852,7 +2852,7 @@ font-weight: 500;</string>
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item alignment="Qt::AlignRight">
+                <item alignment="Qt::AlignmentFlag::AlignRight">
                  <widget class="QPushButton" name="savePassword">
                   <property name="minimumSize">
                    <size>
@@ -2870,7 +2870,7 @@ font-weight: 500;</string>
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="layoutDirection">
-                   <enum>Qt::LeftToRight</enum>
+                   <enum>Qt::LayoutDirection::LeftToRight</enum>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QPushButton{

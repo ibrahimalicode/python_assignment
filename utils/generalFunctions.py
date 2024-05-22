@@ -4,6 +4,7 @@ import json
 import threading
 from PyQt5.QtWidgets import QMessageBox
 import os
+import re
 
 user_id_path = 'json/local_storage.json'
 
@@ -14,12 +15,24 @@ def openLink(link):
 ## checkAndSetBorder
 def checkAndSetBorder(field, value):
     if not value:
-        current_style = field.styleSheet()
-        new_style = f"{current_style} border-color: red;\n"
+        current_style = field.styleSheet().replace("border-color: transparent;\n", "border-color: red;\n")
+        new_style = f"{current_style} \nborder-color: red\n"
         field.setStyleSheet(new_style)
         return True  
     else:
-        field.setStyleSheet(field.styleSheet().replace("border-color: red;\n", ""))
+        field.setStyleSheet(field.styleSheet().replace("border-color: red\n", ""))
+        field.setStyleSheet(field.styleSheet().replace("border-color: red;\n", "border-color: transparent;\n"))
+        return False
+
+## check if valid email
+def is_valid_email(email):
+    # Regular expression pattern for validating email addresses
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    
+    # Check if the email matches the pattern
+    if re.match(pattern, email):
+        return True
+    else:
         return False
 
 
@@ -58,7 +71,7 @@ def remove_data():
     try:
         if os.path.exists(user_id_path):
             os.remove(user_id_path)
-            print(f"User ID file '{user_id_path}' has been removed.")
+            #print(f"User ID file '{user_id_path}' has been removed.")
         else:
             print(f"User ID file '{user_id_path}' does not exist.")
     except Exception as e:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>818</height>
+    <width>659</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -61,7 +61,7 @@
      <property name="maximumSize">
       <size>
        <width>650</width>
-       <height>82</height>
+       <height>150</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -81,13 +81,13 @@
        <number>0</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>20</number>
       </property>
       <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>50</number>
       </property>
       <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
        <widget class="QLabel" name="label">
@@ -121,7 +121,7 @@
 font-weight: 700;</string>
         </property>
         <property name="text">
-         <string>Register</string>
+         <string>Confirm</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -182,10 +182,10 @@ font-weight: 700;</string>
      </layout>
     </widget>
    </item>
-   <item alignment="Qt::AlignmentFlag::AlignLeft">
-    <widget class="QFrame" name="frame_2">
+   <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop">
+    <widget class="QFrame" name="frame_1">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -199,7 +199,7 @@ font-weight: 700;</string>
      <property name="maximumSize">
       <size>
        <width>650</width>
-       <height>510</height>
+       <height>2000</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -221,18 +221,18 @@ border: none;
        <number>30</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>10</number>
       </property>
       <property name="rightMargin">
        <number>30</number>
       </property>
       <property name="bottomMargin">
-       <number>1</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QFrame" name="frame_3">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -240,13 +240,13 @@ border: none;
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>90</height>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>2000</width>
-          <height>65</height>
+          <height>2000</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -260,7 +260,7 @@ border: none;
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
-          <number>3</number>
+          <number>20</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -269,7 +269,7 @@ border: none;
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>15</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -285,41 +285,50 @@ border: none;
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>15</height>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>2000</width>
-             <height>15</height>
+             <height>2000</height>
             </size>
            </property>
            <property name="font">
             <font>
              <family>Poppins</family>
-             <pointsize>14</pointsize>
+             <pointsize>18</pointsize>
             </font>
            </property>
            <property name="styleSheet">
             <string notr="true">color:#7C838A</string>
            </property>
            <property name="text">
-            <string>Full Name</string>
+            <string>Bir defalık şife E-Posta adresinize gönderdik. Lütfen kodu giriniz.</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="nameField">
+          <widget class="QLineEdit" name="codeField">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>43</height>
+             <height>50</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>2000</width>
-             <height>47</height>
+             <height>2000</height>
             </size>
            </property>
            <property name="font">
@@ -356,280 +365,7 @@ QLineEdit::focus {
             <bool>false</bool>
            </property>
            <property name="placeholderText">
-            <string>Enter your Full Name here</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="frame_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>90</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>2000</width>
-          <height>65</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Shape::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Shadow::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>2000</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Poppins</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color:#7C838A</string>
-           </property>
-           <property name="text">
-            <string>Email</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="emailField">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>2000</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Poppins</family>
-             <pointsize>15</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit{
-background: #DEE3E7;
-border-radius: 5px;
-color: rgb(132, 140, 148);
-padding: 0 0 0 15px;
-border-style: solid;
-border-width: 1px;
-border-color: transparent;
-}
-
-QLineEdit::focus {
-    background: #DEE3E7;
-    color: #000000;
-}</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="maxLength">
-            <number>30</number>
-           </property>
-           <property name="placeholderText">
-            <string>Enter your Email here</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="frame_5">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>90</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>2000</width>
-          <height>65</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string/>
-        </property>
-        <property name="toolTipDuration">
-         <number>0</number>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LayoutDirection::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Shape::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Shadow::Raised</enum>
-        </property>
-        <property name="lineWidth">
-         <number>0</number>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>2000</width>
-             <height>15</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Poppins</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color:#7C838A</string>
-           </property>
-           <property name="text">
-            <string>Password</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="passwordField">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>2000</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Poppins</family>
-             <pointsize>15</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit{
-background: #DEE3E7;
-border-radius: 5px;
-color: rgb(132, 140, 148);
-padding: 0 0 0 15px;
-border-style: solid;
-border-width: 1px;
-border-color: transparent;
-}
-
-QLineEdit::focus {
-    background: #DEE3E7;
-    color: #000000;
-}</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="maxLength">
-            <number>30</number>
-           </property>
-           <property name="echoMode">
-            <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
-           </property>
-           <property name="placeholderText">
-            <string>Enter your Password here</string>
+            <string>Kod'u bekliyoruz</string>
            </property>
           </widget>
          </item>
@@ -653,7 +389,7 @@ QLineEdit::focus {
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>150</height>
+          <height>2000</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -676,13 +412,13 @@ QLineEdit::focus {
           <number>21</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>15</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QPushButton" name="createAccBtn">
+          <widget class="QPushButton" name="submitBtn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -717,7 +453,7 @@ color: #FCFEFF;
 border-radius: 5px;</string>
            </property>
            <property name="text">
-            <string>Create Account</string>
+            <string>Submit</string>
            </property>
            <property name="checkable">
             <bool>false</bool>
@@ -735,13 +471,13 @@ border-radius: 5px;</string>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>0</height>
+             <height>50</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>2000</width>
-             <height>3000</height>
+             <height>2000</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -755,7 +491,7 @@ border-radius: 5px;</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <property name="spacing">
-             <number>4</number>
+             <number>10</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -875,13 +611,13 @@ border-radius: 5px;</string>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>35</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>2000</width>
-                <height>35</height>
+                <height>50</height>
                </size>
               </property>
               <property name="layoutDirection">
@@ -952,7 +688,7 @@ border-radius: 5px;</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="errorLabel_2">
+                   <widget class="QLabel" name="errorLabel">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -962,7 +698,7 @@ border-radius: 5px;</string>
                     <property name="minimumSize">
                      <size>
                       <width>400</width>
-                      <height>19</height>
+                      <height>35</height>
                      </size>
                     </property>
                     <property name="font">
@@ -1052,8 +788,8 @@ border-radius: 5px;</string>
      </layout>
     </widget>
    </item>
-   <item alignment="Qt::AlignmentFlag::AlignHCenter">
-    <widget class="QFrame" name="frame_11">
+   <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignBottom">
+    <widget class="QFrame" name="frame_2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>

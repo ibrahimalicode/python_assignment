@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QApplication
 from pages.register import RegisterScreen
 from pages.login import LoginScreen
 from pages.sidebar import SideBarScreen
+from pages.confirm import ConfirmScreen
+
 app = QApplication(sys.argv)
 widget = QtWidgets.QStackedWidget()
 
@@ -28,9 +30,10 @@ widget.move(x, y)
 
 
 # Making widgets accessible globally
-RegisterScreen.widget = widget
 LoginScreen.widget = widget
+RegisterScreen.widget = widget
 SideBarScreen.widget = widget
+ConfirmScreen.widget = widget
 
 
 

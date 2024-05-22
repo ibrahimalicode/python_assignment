@@ -2,7 +2,7 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 from utils.generalFunctions import *
-#from pages.login import LoginScreen
+from pages.confirm import ConfirmScreen
 from api.fetch import *
 from PyQt5.QtWidgets import QMessageBox
 
@@ -18,29 +18,40 @@ class RegisterScreen(QDialog):
         self.createAccBtn.clicked.connect(self.createUser)
         self.toLoginBtn.clicked.connect(self.goToLogin)
         self.ibrahimAliBtn.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
-    
+        self.createAccBtn.setEnabled(True)  # Enable the button
 
     
     def createUser(self):
         name = self.nameField.text()
         email = self.emailField.text()
         password = self.passwordField.text()
+        error = self.errorLabel_2
         
-        if checkAndSetBorder(self.nameField, name) or \
-            checkAndSetBorder(self.emailField, email) or \
-            checkAndSetBorder(self.passwordField, password):
+        if checkAndSetBorder(self.nameField, name):
+            error.setText("Lütfen adı alanını doldurun 😤!")
+            return
+        if checkAndSetBorder(self.emailField, email):
+            error.setText("Lütfen E-Posta alanını doldurun 😡!")
+            return
+        if checkAndSetBorder(self.passwordField, password):
+            error.setText("Lütfen şifre alanını doldurun 😡!")
             return
         
+        # check if the email if valid email format
+        if not is_valid_email(email):
+            error.setText("Lütfen oynamayın. Adam gibi geçerli bir E-Posta adresi girin! 😡")
+            return
+        else: error.setText("")
+
         #print(f"Name: {name}\nEmail: {email}\nPassword: {password}")
-        res = register_user(name, email, password)
-        if res["statusCode"] == 300:
-            self.errorLabel_2.setText("The user exists with this email.")
-        elif res["statusCode"] == 200:
-            self.errorLabel_2.setText("")
-            shop_popup("Success", "User created successfully!", "info", None)
-            self.goToLogin()
-        elif res["statusCode"] == 501:
-            shop_popup("Error", "Enternal error", "error", None)
+        self.goToConfirm(name, email, password)
+        self.createAccBtn.setEnabled(False)  # Disable the button
+
+
+    def goToConfirm(self, name, email, password):
+        confirm = ConfirmScreen(name, email, password)  # Pass the data to ConfirmScreen
+        self.widget.addWidget(confirm)
+        self.widget.setCurrentIndex(self.widget.currentIndex()+1)
 
 
     def goToLogin(self):
