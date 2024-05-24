@@ -1,11 +1,15 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def send_confirmation_code(email, userName, code):
-    sender_email = 'kemetekem@gmail.com'
-    password = "mynf otow bhlv aqpi"
-    smtp = "smtp.gmail.com"
+    sender_email = os.getenv('SENDER_EMAIL')
+    password = os.getenv('EMAIL_PASSWORD')
+    smtp = os.getenv('smtp.gmail.com')
 
     reciver_email = email
     subject = "Doğrulama Koodu"

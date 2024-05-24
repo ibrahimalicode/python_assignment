@@ -153,6 +153,7 @@ def fix_ui_file(ui_file):
         'QFrame::Shadow::Plain' : 'QFrame::Plain',
         'QAbstractItemView::SelectionBehavior::SelectRows' : 'QAbstractItemView::SelectRows',
         'QAbstractItemView::SelectionBehavior::SelectItems' : 'QAbstractItemView::SelectItems',
+        'QFrame::Shape::NoFrame' : 'QFrame::NoFrame'
     }
 
     with open(ui_file, 'r') as file:

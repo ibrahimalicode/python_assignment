@@ -3,14 +3,14 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication
 from pages.register import RegisterScreen
 from pages.login import LoginScreen
-from pages.sidebar import SideBarScreen
+from pages.sidebar import SidebarScreen
 from pages.confirm import ConfirmScreen
 
 app = QApplication(sys.argv)
 widget = QtWidgets.QStackedWidget()
 
 # Create an instance of the screens
-#login = SideBarScreen() ## i don't have to login everytime to see the sidebar when working.
+#login = SidebarScreen(widget) ## i don't have to login everytime to see the sidebar when working.
 login = LoginScreen() 
 register = RegisterScreen()
 
@@ -32,7 +32,7 @@ widget.move(x, y)
 # Making widgets accessible globally
 LoginScreen.widget = widget
 RegisterScreen.widget = widget
-SideBarScreen.widget = widget
+SidebarScreen.widget = widget
 ConfirmScreen.widget = widget
 
 

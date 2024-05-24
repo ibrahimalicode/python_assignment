@@ -4,9 +4,12 @@ from PyQt5.QtWidgets import QDialog
 from utils.generalFunctions import *
 from pages.confirm import ConfirmScreen
 from api.fetch import *
-from PyQt5.QtWidgets import QMessageBox
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
+link = os.getenv('WEBSITE_LINK')
 registerUI = "components/register.ui"
 
 class RegisterScreen(QDialog):
@@ -17,7 +20,7 @@ class RegisterScreen(QDialog):
         
         self.createAccBtn.clicked.connect(self.createUser)
         self.toLoginBtn.clicked.connect(self.goToLogin)
-        self.ibrahimAliBtn.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
+        self.ibrahimAliBtn.clicked.connect(lambda: openLink(link))
         self.createAccBtn.setEnabled(True)  # Enable the button
 
     
@@ -45,6 +48,9 @@ class RegisterScreen(QDialog):
 
         #print(f"Name: {name}\nEmail: {email}\nPassword: {password}") 
         self.goToConfirm(name, email, password)
+        self.nameField.setText('')
+        self.emailField.setText('')
+        self.passwordField.setText('')
         self.createAccBtn.setEnabled(False)  # Disable the button
 
 

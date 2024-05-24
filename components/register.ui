@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>818</height>
+    <width>836</width>
+    <height>849</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -182,7 +182,7 @@ font-weight: 700;</string>
      </layout>
     </widget>
    </item>
-   <item alignment="Qt::AlignLeft">
+   <item alignment="Qt::AlignHCenter">
     <widget class="QFrame" name="frame_2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">

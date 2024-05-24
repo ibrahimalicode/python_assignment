@@ -1,39 +1,43 @@
-import os
-import sys
-import sqlite3
 import resources_rc
 from PyQt5.QtCore import Qt
+from PyQt5.uic import loadUi
+from api.loading_func import GPTResponseThread
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QMovie
-from PyQt5.QtWidgets import QDialog, QListView, QApplication, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QDialog, QListView, QApplication, QLabel
+
 
 ## FUNCTIONS
-from api.fetch import *
-from PyQt5.uic import loadUi
-from dotenv import load_dotenv
 from utils.generalFunctions import *
-from api.loading_func import GPTResponseThread
+from api.fetch import *
 
-load_dotenv()
 
-link = os.getenv('WEBSITE_LINK')
 sideBarUI = "components/sidebar.ui"
 
+""" class GPTResponseThread(QThread):
+    response_received = pyqtSignal(str)
 
+    def __init__(self, prompt):
+        super().__init__()
+        self.prompt = prompt
+
+    def run(self):
+        response = get_gpt_response(self.prompt)
+        self.response_received.emit(response) """
 
 class SidebarScreen(QDialog):
-    def __init__(self, widget):
+    def __init__(self):
         super(SidebarScreen, self).__init__()
         fix_ui_file(sideBarUI)
         loadUi(sideBarUI, self)
-        
-        self.widget = widget
+
         self.icon_only_widget.hide()
         self.stackedWidget.setCurrentIndex(0)
         self.questionsBtn2.setChecked(True)
-        self.logo.clicked.connect(lambda: openLink(link))
-        self.logo_2.clicked.connect(lambda: openLink(link))
+        self.logo.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
+        self.logo_2.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
 
         self.searchBtn.clicked.connect(self.handle_search)
+        self.searchBar.returnPressed.connect(self.handle_search)
 
         self.addQuestionBtn.clicked.connect(lambda: self.addElement("Question"))
         self.addAnswerBtn.clicked.connect(lambda: self.addElement("Answer"))
@@ -51,21 +55,32 @@ class SidebarScreen(QDialog):
 
         self.savePassword.clicked.connect(self.updatePassword)
         self.savePersonalInfoBtn.clicked.connect(self.updateName)
-        self.loadingLabel.hide()
 
         self.insert_item_data(get_item("all", "Question"), 'quest')
 
-    def adjustSize(self):
-        self.loadingLabel.setFixedSize(self.movie.currentPixmap().size())
-    ## Declare Global Variables 
+
+        # Loading indicator setup
+        self.loadingLabel.move(400,300)
+        self.loadingLabel = QLabel(self)
+        self.loadingLabel.setMovie(QMovie("components/loading.gif"))
+        self.loadingLabel.setVisible(False)
+    
+    # Declare Global Variables
     edit_element_text = None
     edit_element_id = None
     is_selected_element_row = False
     gpt_conversation = []
 
-    def goToLogin(self):
-        self.widget.setCurrentIndex(0)
+    def show_loading(self):
+        self.loadingLabel.setVisible(True)
+        self.loadingLabel.movie().start()
 
+    def hide_loading(self):
+        self.loadingLabel.setVisible(False)
+        self.loadingLabel.movie().stop()
+
+    def goToLogin(self):
+        self.widget.setCurrentIndex(self.widget.currentIndex() - 1)
 
     def insert_item_data(self, data, page):
         list_view = None
@@ -97,11 +112,9 @@ class SidebarScreen(QDialog):
                 model.appendRow(QStandardItem('No Results'))
         else:
             print(f'No list found to insert the data')
-   
-    ## Function for searching
+
     def handle_search(self):
         prompt = self.searchBar.text().strip()
-
         if not prompt:
             if  self.stackedWidget.currentIndex() == 0:
                 self.insert_item_data(get_item("all", "Question"), 'quest')
@@ -109,21 +122,20 @@ class SidebarScreen(QDialog):
                 self.insert_item_data(get_item("all", "Answer"), 'ans')
             return
 
-        self.gpt_conversation.append(([f'soru:\n {prompt}']))
+        self.gpt_conversation.append([f'soru:\n {prompt}'])
         add_element(prompt, "Question")
-        self.loadingLabel.show()
-        self.searchBtn.setEnabled(False)
+        
+        # Show loading indicator
+        self.show_loading()
 
         # Start the GPT response thread
         self.gpt_response_thread = GPTResponseThread(prompt)
         self.gpt_response_thread.response_received.connect(self.handle_gpt_response)
         self.gpt_response_thread.start()
 
-    ## Function for GPT response
     def handle_gpt_response(self, response):
-        self.loadingLabel.hide()
+        self.hide_loading()
         self.searchBar.setText("")
-        self.searchBtn.setEnabled(True)
         self.gpt_conversation.append([f'cevap:\n {response}'])
         add_element(response, "Answer")
         
@@ -132,73 +144,75 @@ class SidebarScreen(QDialog):
         elif self.stackedWidget.currentIndex() == 1:
             self.insert_item_data(self.gpt_conversation, "ans")
 
-        #print(str(self.gpt_conversation))
+        print(str(self.gpt_conversation))
 
     ## functions for changing menu page
+    # questions page
     def on_questionsBtn_toggled(self):
-        # questions page
         self.stackedWidget.setCurrentIndex(0)
-        #self.insert_item_data(get_item("all", "Question"), 'quest')
+        if not self.gpt_conversation:
+            self.insert_item_data(get_item("all", "Question"), 'quest')
         self.searchFrame.show()
     
+    # questions page
     def on_questionsBtn2_toggled(self):
-        # questions page
         self.stackedWidget.setCurrentIndex(0)
-        #self.insert_item_data(get_item("all", "Question"), 'quest')
+        if not self.gpt_conversation:
+            self.insert_item_data(get_item("all", "Question"), 'quest')
         self.searchFrame.show()
 
+    # answers page
     def on_answersBtn_toggled(self):
-        # answers page
         self.stackedWidget.setCurrentIndex(1)
         self.insert_item_data(get_item("all", "Answer"), 'ans')
         self.searchFrame.show()
 
+    # answers page
     def on_answersBtn2_toggled(self):
-        # answers page
         self.stackedWidget.setCurrentIndex(1)
         self.insert_item_data(get_item("all", "Answer"), 'ans')
         self.searchFrame.show()
 
+    # ADD Question Page
     def on_addQBtn_toggled(self):
-        # ADD Question Page
         self.stackedWidget.setCurrentIndex(2)
         self.searchFrame.hide()
 
+    # ADD Question Page
     def on_addQBtn2_toggled(self):
-        # ADD Question Page
         self.stackedWidget.setCurrentIndex(2) 
         self.searchFrame.hide()
 
+    #EDIT Question Page
     def on_editQBtn_toggled(self):
-        #EDIT Question Page
         self.insert_item_data(get_item("with_id", "Question"), 'quest')
         self.stackedWidget.setCurrentIndex(3) 
         self.searchFrame.hide()
 
+    #EDIT Question Page
     def on_editQBtn2_toggled(self):
-        #EDIT Question Page
         self.insert_item_data(get_item("with_id", "Question"), 'edit_question')
         self.stackedWidget.setCurrentIndex(3)
         self.searchFrame.hide()
 
+    #ADD Answer Page
     def on_addABtn_toggled(self):
-        #ADD Answer Page
         self.stackedWidget.setCurrentIndex(4) 
         self.searchFrame.hide()
 
+    #ADD Answer Page
     def on_addABtn2_toggled(self):
-        #ADD Answer Page
         self.stackedWidget.setCurrentIndex(4)
         self.searchFrame.hide()
 
+    #EDIT Answer Page
     def on_editABtn_toggled(self):
-        #EDIT Answer Page
         self.insert_item_data(get_item("with_id", "Answer"), 'edit_answer')
         self.stackedWidget.setCurrentIndex(5) 
         self.searchFrame.hide()
 
+    #EDIT Answer Page
     def on_editABtn2_toggled(self):
-        #EDIT Answer Page
         self.insert_item_data(get_item("with_id", "Answer"), 'edit_answer')
         self.stackedWidget.setCurrentIndex(5)
         self.searchFrame.hide()
@@ -214,6 +228,7 @@ class SidebarScreen(QDialog):
         self.newPassword.setText("")
         self.confirmPassword.setText("")
 
+    ## PROFILE page
     def on_profileBtn2_toggled(self):
         self.stackedWidget.setCurrentIndex(6) 
         self.searchFrame.hide()
@@ -378,6 +393,13 @@ class SidebarScreen(QDialog):
                 elif res["statusCode"] == 401:
                     shop_popup("Warning", "Un authorized", "warning", None)
 
+    
+    ## LOGOUT USER AND CLOSE THE APP
+    def logout(self):
+        print("Logging out...")
+        # Close the application
+        remove_data()
+        QApplication.quit()
 
     ##UPDATE PASSWORD
     def updatePassword(self):
@@ -420,11 +442,3 @@ class SidebarScreen(QDialog):
         if res["statusCode"] == 200:
             shop_popup("Bilgilendirme", "Adınız başarıyla güncellendi!", "info", None)
         if res["statusCode"] == 501: shop_popup("Hata", "Bir hata oluştu. Tekrar deneyiniz!", "error", None)
-    
-    ## LOGOUT USER AND CLOSE THE APP
-    def logout(self):
-        print("Logging out...")
-        remove_data()
-        self.goToLogin()
-        # Close the application
-        #QApplication.quit()

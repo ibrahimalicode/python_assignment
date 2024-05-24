@@ -2,10 +2,14 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 from utils.generalFunctions import *
-from pages.sidebar import SideBarScreen
+from pages.sidebar import SidebarScreen
 from api.fetch import login_user
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
+link = os.getenv('WEBSITE_LINK')
 loginUI = "components/login.ui"
 
 class LoginScreen(QDialog):
@@ -15,13 +19,13 @@ class LoginScreen(QDialog):
         loadUi(loginUI, self)
         self.loginBtn.clicked.connect(self.logUser)
         self.toCreateAccBtn.clicked.connect(self.goToRegister)
-        self.ibrahimAliBtn.clicked.connect(lambda: openLink("https://www.ibrahimali.net"))
+        self.ibrahimAliBtn.clicked.connect(lambda: openLink(link))
 
     def goToRegister(self):
         self.widget.setCurrentIndex(self.widget.currentIndex()+1)
     
     def goToSideBar(self):
-        sideBar = SideBarScreen()
+        sideBar = SidebarScreen(self.widget)
         self.widget.addWidget(sideBar)
         total_widgets = self.widget.count()
         index = total_widgets - 1
@@ -46,7 +50,11 @@ class LoginScreen(QDialog):
         if res["statusCode"] == 404: self.errorLabel.setText("Kullanıcı bulunumadı 🤷‍♂️!")
         if res["statusCode"] == 301: self.errorLabel.setText("Yanlış Şifre 🙅‍♂️!")
         if res["statusCode"] == 501: self.errorLabel.setText("Bir hata oluştu. Tekrar deneyin !")
-        if res["statusCode"] == 200: self.errorLabel.setText(""), self.goToSideBar()
+        if res["statusCode"] == 200: 
+            self.errorLabel.setText("")
+            self.goToSideBar()
+            self.emailField.setText('')
+            self.passwordField.setText('')
         #print(res)
 
 
